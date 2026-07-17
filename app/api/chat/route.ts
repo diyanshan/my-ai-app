@@ -23,7 +23,6 @@ function getErrorMessage(error: unknown) {
 }
 
 function normalizeMessages(messages: Array<{ role: string; content?: unknown; parts?: unknown }>) {
-  console.log('messages: ', messages);
   return messages
     .map(message => {
       const text =
@@ -66,7 +65,6 @@ export async function POST(req: Request) {
 
   const body = await req.json();
   const messages = normalizeMessages(body.messages ?? []);
-  console.log('messages1212: ', messages);
 
   if (messages.length === 0) {
     return Response.json(
@@ -81,7 +79,6 @@ export async function POST(req: Request) {
     const result = await streamText({
       model: openai.chat(modelId),
       messages,
-      temperature: 0.7,
     });
 
     return result.toUIMessageStreamResponse({
